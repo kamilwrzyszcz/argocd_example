@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: golang-app
-        image: example_backend_argo:latest
-        imagePullPolicy: Never
+        image: kwrzyszcz/argo_backend:0.1.0
+        imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

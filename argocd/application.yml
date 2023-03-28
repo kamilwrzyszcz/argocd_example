@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/antonputra/lesson-158.git # change it
+    repoURL: https://github.com/kamilwrzyszcz/argocd_example.git
     targetRevision: HEAD
     path: kube
   destination:

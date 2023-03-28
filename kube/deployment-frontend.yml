@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: react-app
-        image: example_frontend_argo:latest
-        imagePullPolicy: Never
+        image: kwrzyszcz/argo_frontend:0.1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
 ---
