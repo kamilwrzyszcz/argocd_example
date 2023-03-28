@@ -35,8 +35,8 @@ jobs:
 
       - name: Modify img tags in manifests
         run: |
-          sed -i '' -e "s/kwrzyszcz\/argo_frontend:.*/kwrzyszcz\/argo_frontend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-frontend.yml
-          sed -i '' -e "s/kwrzyszcz\/argo_backend:.*/kwrzyszcz\/argo_backend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-backend.yml
+          sed -i -e "s/kwrzyszcz\/argo_frontend:.*/kwrzyszcz\/argo_frontend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-frontend.yml
+          sed -i -e "s/kwrzyszcz\/argo_backend:.*/kwrzyszcz\/argo_backend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-backend.yml
 
       - name: Commit modified images tags
         uses: stefanzweifel/git-auto-commit-action@v4
