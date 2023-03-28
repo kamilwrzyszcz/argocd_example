@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: golang-app
-        image: kwrzyszcz/argo_backend:b10df8e55fc1ee8ea59dc2903b853933a9ff9ee7
+        image: kwrzyszcz/argo_backend:9d5679381da77e1e5ef0446237a8db1ec56f9917
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
