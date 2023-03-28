@@ -1,0 +1,44 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  push_to_registry:
+    name: Build, tag & Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: set output
+        id: output-set
+        run: |
+          echo "TAG=${{ github.sha }}" >> $GITHUB_OUTPUT
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build and push front
+        run: |
+          docker build -t kwrzyszcz/argo_frontend:${{ steps.output-set.outputs.TAG }} frontend/client
+          docker push kwrzyszcz/argo_frontend:${{ steps.output-set.outputs.TAG }}
+
+      - name: Build and push back
+        run: |
+          docker build -t kwrzyszcz/argo_backend:${{ steps.output-set.outputs.TAG }} backend/server
+          docker push kwrzyszcz/argo_backend:${{ steps.output-set.outputs.TAG }}
+
+      - name: Modify img tags in manifests
+        run: |
+          sed -i '' -e "s/kwrzyszcz\/argo_frontend:.*/kwrzyszcz\/argo_frontend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-frontend.yml
+          sed -i '' -e "s/kwrzyszcz\/argo_backend:.*/kwrzyszcz\/argo_backend:${{ steps.output-set.outputs.TAG }}/g" kube/deployment-backend.yml
+
+      - name: Commit modified images tags
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated img tag change
